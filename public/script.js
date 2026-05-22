@@ -1,0 +1,87 @@
+//plaintes
+
+async function affOptpl(){
+    const inscrits = await get('http://localhost:4000/inscriptions');
+    for (let i = 0 ; i<inscrits.length ; i++){
+        const opt = document.createElement("option");
+        opt.textContent = inscrits[i].id;
+        document.getElementById("sur").appendChild(opt);
+    }
+}
+affOptpl();
+
+
+document.getElementById("formpl").addEventListener("submit" , function(event){
+    event.preventDefault();
+    const payload = {
+        com: document.getElementById("com").value,
+        sur: document.getElementById("sur").value,
+    }
+    post('http://localhost:4000/plainte' , payload);
+});
+
+
+// Connection et affichages des plaintes
+
+document.getElementById("con").addEventListener("submit", async function(event){
+    event.preventDefault();
+    const inscrits = await get('http://localhost:4000/inscriptions');
+    const idCon = document.getElementById("idCon").value;
+    const mdpCon = document.getElementById("mdpCon").value;
+    const idOk = inscrits.some(inscrit => inscrit.id === idCon);
+    const mdpOk = inscrits.some(inscrit => inscrit.mdp === mdpCon);
+    if (idOk){
+        if (mdpOk){
+            document.getElementById("ptpl").style.display = "block" ;
+            document.getElementById("rej").style.display = "none" ;
+            const plaintes = await get(`http://localhost:4000/plaintes/${encodeURIComponent(idCon)}`);
+            for (let i = 0 ; i<plaintes.length ; i++){
+                const com = document.createElement("h3");
+                const hr = document.createElement("hr");
+                com.textContent = "Commentaire de la plainte : " + plaintes[i].com;
+                document.getElementById("ptpl").appendChild(com);
+                document.getElementById("ptpl").appendChild(hr);
+            }
+        } else {
+            alert("Mot de passe faux.")
+        }
+    } else {
+        alert("Cet identifiant ne figure pas dans nos bases de donées.")
+    }
+});
+
+
+//S'incrire (et afiichage des plaintes)
+document.getElementById("rej").addEventListener("submit" , function(event){
+    event.preventDefault();
+    const payload = {
+        id: document.getElementById("idRej").value,
+        mdp: document.getElementById("mdpRej").value,
+    }
+    post('http://localhost:4000/inscription' , payload);
+});
+
+
+
+//pubs
+async function run(){
+    var lograna = document.getElementById("lograna");
+    for (;;){
+    await pub("Lograna: Les cookies de Référence", lograna);
+    await pub("Ils ont même conquit les gentlemen", lograna);
+    await pub("Le combo ultime crousti-moelleux-fondant", lograna);
+    }
+}
+run();
+
+
+async function pub(txt, marque){
+    marque.innerHTML = txt;
+    await new Promise(fct => setTimeout(fct, 5000));
+}
+
+
+document.getElementById("logranaL").addEventListener("click" , function(){
+    window.location.href = "https://lograna.onrender.com";
+});
+

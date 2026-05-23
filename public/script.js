@@ -25,13 +25,10 @@ document.getElementById("formpl").addEventListener("submit" , function(event){
 
 document.getElementById("con").addEventListener("submit", async function(event){
     event.preventDefault();
-    const inscrits = await get('https://sos-doudous.onrender.com/inscriptions');
     const idCon = document.getElementById("idCon").value;
     const mdpCon = document.getElementById("mdpCon").value;
-    const idOk = inscrits.some(inscrit => inscrit.id === idCon);
-    const mdpOk = inscrits.some(inscrit => inscrit.mdp === mdpCon);
-    if (idOk){
-        if (mdpOk){
+    const conOk = await get(`http://localhost:4000/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
+        if (conOk){
             document.getElementById("ptpl").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;
             const plaintes = await get(`https://sos-doudous.onrender.com/plaintes/${encodeURIComponent(idCon)}`);
@@ -43,12 +40,10 @@ document.getElementById("con").addEventListener("submit", async function(event){
                 document.getElementById("ptpl").appendChild(hr);
             }
         } else {
-            alert("Mot de passe faux.")
+            alert("Identifiants incorects.")
         }
-    } else {
-        alert("Cet identifiant ne figure pas dans nos bases de donées.")
-    }
-});
+    } 
+);
 
 
 //S'incrire (et afiichage des plaintes)

@@ -52,6 +52,7 @@ app.post('/inscription', async (req, res) => {
   try {
  const item = new inscrits(req.body);
   await item.save();
+  
   res.json(item);
   } catch (error){
     console.error(error);
@@ -66,13 +67,24 @@ app.get('/inscriptions', async (req, res) => {
   res.json(items);
 });
 
+app.get('/connexion/:id/:mdp', async (req, res) => {
+  const pId = decodeURIComponent(req.params.id);
+  const pMdp = decodeURIComponent(req.params.mdp);
+
+  const item = await inscrits.findOne({id: pId , mdp: pMdp});
+  return res.json(item || false);
+  
+})
+
 
 // Créer une plainte
 app.post('/plainte', async (req, res) => {
   try {
  const item = new plaintes(req.body);
   await item.save();
+
   res.json(item);
+
   } catch (error){
     console.error(error);
     res.status(500).json({ error: "Erreur serveur" });
@@ -83,6 +95,7 @@ app.post('/plainte', async (req, res) => {
 
 app.get('/plaintes/:idCon', async (req, res) => {
   const idCon = decodeURIComponent(req.params.idCon);
+
   const items = await plaintes.find({sur: idCon,});  
   res.json(items);
 });

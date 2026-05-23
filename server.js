@@ -46,36 +46,11 @@ const plaintes= mongoose.model('Plaintes', SchemaP);
 app.use(cors()); 
 
 
-
-// S'inscrire
-app.post('/inscription', async (req, res) => {
-  try {
- const item = new inscrits(req.body);
-  await item.save();
-  
-  res.json(item);
-  } catch (error){
-    console.error(error);
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-});
-
-
-// Se connecter/afficher pour plaintes
+//afficher inscrits pour plaintes
 app.get('/inscriptions', async (req, res) => {
-  const items = await inscrits.find();  
+  const items = await inscrits.find({} , {mdp: 0,});  
   res.json(items);
 });
-
-app.get('/connexion/:id/:mdp', async (req, res) => {
-  const pId = decodeURIComponent(req.params.id);
-  const pMdp = decodeURIComponent(req.params.mdp);
-
-  const item = await inscrits.findOne({id: pId , mdp: pMdp});
-  return res.json(item || false);
-  
-})
-
 
 // Créer une plainte
 app.post('/plainte', async (req, res) => {
@@ -91,6 +66,19 @@ app.post('/plainte', async (req, res) => {
   }
 });
 
+
+//Se connecter
+app.get('/connexion/:id/:mdp', async (req, res) => {
+  const pId = decodeURIComponent(req.params.id);
+  const pMdp = decodeURIComponent(req.params.mdp);
+
+  const item = await inscrits.findOne({id: pId , mdp: pMdp} , {mdp: 0,});
+  return res.json(item || false);
+  
+})
+
+
+
 // Récupérer les plaintes
 
 app.get('/plaintes/:idCon', async (req, res) => {
@@ -98,8 +86,21 @@ app.get('/plaintes/:idCon', async (req, res) => {
 
   const items = await plaintes.find({sur: idCon,});  
   res.json(items);
-});
+})
 
+
+// S'inscrire
+app.post('/inscription', async (req, res) => {
+  try {
+ const item = new inscrits(req.body);
+  await item.save();
+  
+  res.json(item);
+  } catch (error){
+    console.error(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
 
 
 app.use(express.static("public"));

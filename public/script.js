@@ -1,7 +1,7 @@
 //plaintes
 
 async function affOptpl(){
-    const inscrits = await get('http://localhost:4000/inscriptions');
+    const inscrits = await get('https://sos-doudous.onrender.com/inscriptions');
     for (let i = 0 ; i<inscrits.length ; i++){
         const opt = document.createElement("option");
         opt.textContent = inscrits[i].id;
@@ -25,7 +25,7 @@ document.getElementById("formpl").addEventListener("submit" , function(event){
 
 document.getElementById("con").addEventListener("submit", async function(event){
     event.preventDefault();
-    const inscrits = await get('http://localhost:4000/inscriptions');
+    const inscrits = await get('https://sos-doudous.onrender.com/inscriptions');
     const idCon = document.getElementById("idCon").value;
     const mdpCon = document.getElementById("mdpCon").value;
     const idOk = inscrits.some(inscrit => inscrit.id === idCon);
@@ -34,7 +34,7 @@ document.getElementById("con").addEventListener("submit", async function(event){
         if (mdpOk){
             document.getElementById("ptpl").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;
-            const plaintes = await get(`http://localhost:4000/plaintes/${encodeURIComponent(idCon)}`);
+            const plaintes = await get(`https://sos-doudous.onrender.com/plaintes/${encodeURIComponent(idCon)}`);
             for (let i = 0 ; i<plaintes.length ; i++){
                 const com = document.createElement("h3");
                 const hr = document.createElement("hr");
@@ -58,7 +58,7 @@ document.getElementById("rej").addEventListener("submit" , function(event){
         id: document.getElementById("idRej").value,
         mdp: document.getElementById("mdpRej").value,
     }
-    post('http://localhost:4000/inscription' , payload);
+    post('https://sos-doudous.onrender.com/inscription' , payload);
 });
 
 

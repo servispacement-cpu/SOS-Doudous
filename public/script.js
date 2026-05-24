@@ -17,7 +17,7 @@ document.getElementById("formpl").addEventListener("submit" , function(event){
         com: document.getElementById("com").value,
         sur: document.getElementById("sur").value,
     }
-    post('http://localhost:4000/plainte' , payload);
+    post('https://sos-doudous.onrender.com/plainte' , payload);
 });
 
 
@@ -27,7 +27,7 @@ document.getElementById("con").addEventListener("submit", async function(event){
     event.preventDefault();
     const idCon = document.getElementById("idCon").value;
     const mdpCon = document.getElementById("mdpCon").value;
-    const dataCon = await get(`http://sos-doudous.onrender.com/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
+    const dataCon = await get(`https://sos-doudous.onrender.com/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
         if (dataCon){
             document.getElementById("ptpl").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;

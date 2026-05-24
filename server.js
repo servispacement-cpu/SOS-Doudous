@@ -67,25 +67,18 @@ app.post('/plainte', async (req, res) => {
 });
 
 
-//Se connecter
+//Se connecter + recup plaintes
 app.get('/connexion/:id/:mdp', async (req, res) => {
   const pId = decodeURIComponent(req.params.id);
   const pMdp = decodeURIComponent(req.params.mdp);
 
-  const item = await inscrits.findOne({id: pId , mdp: pMdp} , {mdp: 0,});
-  return res.json(item || false);
-  
-})
-
-
-
-// Récupérer les plaintes
-
-app.get('/plaintes/:idCon', async (req, res) => {
-  const idCon = decodeURIComponent(req.params.idCon);
-
-  const items = await plaintes.find({sur: idCon,});  
-  res.json(items);
+  const connexion = await inscrits.findOne({id: pId , mdp: pMdp});
+  if (connexion){
+    const plaintesCon = await plaintes.find({sur: connexion.id,});
+    return res.json(plaintesCon);
+  } else {
+    return res.json(false);
+  }
 })
 
 

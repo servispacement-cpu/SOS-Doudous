@@ -36,3 +36,21 @@ async function post (url , payload){
     }
 }
 
+
+async function sup(url){
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
+
+        const data = await response.json();
+        if(data){alert("Votre compte a bien été suprimmé")}
+        console.log('Réponse du serveur :', data);
+    } catch (error) {
+        console.error('Erreur :', error);
+    }
+}
+

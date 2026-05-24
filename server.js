@@ -95,6 +95,19 @@ app.post('/inscription', async (req, res) => {
   }
 });
 
+///Supprimer le compte
+
+app.delete('/supcompte/:id', async (req, res) => {
+  try {
+    const id = decodeURIComponent(req.params.id);
+    const compte = await inscrits.findOneAndDelete({id: id});
+    res.json(compte);
+  } catch (error){
+    console.error(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 
 app.use(express.static("public"));
 

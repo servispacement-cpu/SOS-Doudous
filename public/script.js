@@ -21,7 +21,7 @@ document.getElementById("formpl").addEventListener("submit" , function(event){
 });
 
 
-// Connection et affichages des plaintes
+// Connection et affichages des plaintes (sup compte)
 
 document.getElementById("con").addEventListener("submit", async function(event){
     event.preventDefault();
@@ -38,14 +38,24 @@ document.getElementById("con").addEventListener("submit", async function(event){
                 document.getElementById("ptpl").appendChild(com);
                 document.getElementById("ptpl").appendChild(hr);
             }
+            ///Supprimer un compte
+            const bts = document.createElement("button");
+            bts.textContent = "Supprimer le compte";
+            bts.addEventListener("click" , function(){
+                const verifsup = prompt("Ecrivez ' " + idCon + " ' pour valider la suppression.")
+                if(verifsup === idCon){
+                    sup(`http://sos-doudous.onrender.com/supcompte/${encodeURIComponent(idCon)}`);
+                }
+            })
+            document.getElementById("ptpl").appendChild(bts);
         } else {
             alert("Identifiants incorects.")
         }
     } 
-);
+, { once: true });
 
 
-//S'incrire (et afiichage des plaintes)
+//S'incrire
 document.getElementById("rej").addEventListener("submit" , function(event){
     event.preventDefault();
     const payload = {
@@ -53,6 +63,7 @@ document.getElementById("rej").addEventListener("submit" , function(event){
         mdp: document.getElementById("mdpRej").value,
     }
     post('https://sos-doudous.onrender.com/inscription' , payload);
+    alert("Veuillez vous connecter avec vos identifiants pour accéder à votre page.")
 });
 
 

@@ -27,7 +27,7 @@ document.getElementById("con").addEventListener("submit", async function(event){
     event.preventDefault();
     const idCon = document.getElementById("idCon").value;
     const mdpCon = document.getElementById("mdpCon").value;
-    const dataCon = await get(`http://localhost:4000/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
+    const dataCon = await get(`http://sos-doudous.onrender.com/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
         if (dataCon){
             document.getElementById("ptpl").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;

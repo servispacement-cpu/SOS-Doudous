@@ -28,6 +28,8 @@ mongoose.connect('mongodb://servispacement_db_user:test@ac-wrbrxfi-shard-00-00.r
 const SchemaI = new mongoose.Schema({
   id: String,
   mdp: String,
+  plaintes: Number,
+  dip: String,
 });
 
 const SchemaP = new mongoose.Schema({
@@ -48,15 +50,20 @@ app.use(cors());
 
 //afficher inscrits pour plaintes
 app.get('/inscriptions', async (req, res) => {
-  const items = await inscrits.find({} , {mdp: 0,});  
+  const items = await inscrits.find({plaintes: { $lte: 2 }} , {mdp: 0,});  
   res.json(items);
 });
 
 // Créer une plainte
 app.post('/plainte', async (req, res) => {
   try {
- const item = new plaintes(req.body);
+  const item = new plaintes(req.body);
   await item.save();
+
+  await inscrits.updateOne(
+    {id: req.body.sur},
+    {$inc: {plaintes: 1},}
+  )
 
   res.json(item);
 

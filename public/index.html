@@ -8,16 +8,16 @@
             <h1>Bienvenue sur le site de notre association SOS Doudous</h1>
         </div>
         <div>
-            <h1>Porter plainte :</h1>
+            <h1>Appel au secours (à utiliser en cas d'urgence) :</h1>
             <form id="formpl">
-            <label>Sélectionner la personne contre qui va la plainte :</label><br><select id="sur" required></select><br><br>
+            <label>Sélectionnez votre interveant de la SECTE DOUDOUS :</label><br><select id="sur" required></select><br><br>
             <textarea id="com" rows="12" cols="60" placeholder="En quoi la plaite devrait être validée ?" required></textarea><br><br>
             <button> Porter plainte </button>
             </form>
         </div>
 
-        <div>
-            <h1>Se connecter à son compte SECTE DOUDOUS</h1>
+        <div id="divcon">
+            <h1>Se connecter à son compte intervenant SECTE DOUDOUS</h1>
             <form id="con">
                 <label>Entrez votre identifient : </label><br><input type="text" id="idCon" required><br><br>
                 <label>Entrez votre mot de passe : </label><br><input type="password" id="mdpCon" required><br><br>
@@ -26,12 +26,15 @@
         </div>
 
         <div id="ptpl" style="display: none;">
-            <h1>Les plaintes contre vous :</h1>
+            <h1>Vos missions :</h1>
         </div>
 
         <div id="rej">
-            <h1>Rejoindre la SECTE DOUDOUS (si vous n'y êtes pas encore)</h1>
+            <h1>Rejoindre la SECTE DOUDOUS, devenez intervenant !</h1>
+            <p>Afin de d'être embauché en tant qu'intervenant, nous vous demanderons votre numéro de dimplôme de médecin urgentiste, 
+                spécialisé en médecine peluchière.</p>
             <form id="rej">
+                <label>Numéro de diplôme (inscrit en bas du diplôme) :</label><input type="text" id="dip"><br><br>
                 <label>Créez votre identifient : </label><br><input type="text" id="idRej" required><br><br>
                 <label>Créez votre mot de passe : </label><br><input type="password" id="mdpRej" required><br><br>
                 <label>Confirmation du versement de 15€ par mois (cochez pour confirmer) : </label><br><input type="checkbox" id="payRej" required><br><br>

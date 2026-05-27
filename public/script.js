@@ -29,6 +29,7 @@ document.getElementById("con").addEventListener("submit", async function(event){
     const mdpCon = document.getElementById("mdpCon").value;
     const dataCon = await get(`https://sos-doudous.onrender.com/connexion/${encodeURIComponent(idCon)}/${encodeURIComponent(mdpCon)}`);
         if (dataCon){
+            document.getElementById("divcon").style.display = "none" ;
             document.getElementById("ptpl").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;
             for (let i = 0 ; i<dataCon.length ; i++){
@@ -44,15 +45,14 @@ document.getElementById("con").addEventListener("submit", async function(event){
             bts.addEventListener("click" , function(){
                 const verifsup = prompt("Ecrivez ' " + idCon + " ' pour valider la suppression.")
                 if(verifsup === idCon){
-                    sup(`http://sos-doudous.onrender.com/supcompte/${encodeURIComponent(idCon)}`);
+                    sup(`https://sos-doudous.onrender.com/supcompte/${encodeURIComponent(idCon)}`);
                 }
             })
             document.getElementById("ptpl").appendChild(bts);
         } else {
             alert("Identifiants incorects.")
         }
-    } 
-, { once: true });
+    });
 
 
 //S'incrire
@@ -61,11 +61,12 @@ document.getElementById("rej").addEventListener("submit" , function(event){
     const payload = {
         id: document.getElementById("idRej").value,
         mdp: document.getElementById("mdpRej").value,
+        plaintes: 0,
+        dip: document.getElementById("dip").value,
     }
     post('https://sos-doudous.onrender.com/inscription' , payload);
-    alert("Veuillez vous connecter avec vos identifiants pour accéder à votre page.")
+    alert("Veuillez vous connecter avec vos identifiants pour accéder à votre page.");
 });
-
 
 
 //pubs
@@ -86,7 +87,6 @@ async function pub(txt, marque){
 }
 
 
-document.getElementById("logranaL").addEventListener("click" , function(){
+document.getElementById("logranaL").addEventListener("click" , function() {
     window.location.href = "https://lograna.onrender.com";
 });
-

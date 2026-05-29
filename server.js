@@ -79,10 +79,10 @@ app.get('/connexion/:id/:mdp', async (req, res) => {
   const pId = decodeURIComponent(req.params.id);
   const pMdp = decodeURIComponent(req.params.mdp);
 
-  const connexion = await inscrits.findOne({id: pId , mdp: pMdp});
-  if (connexion){
-    const plaintesCon = await plaintes.find({sur: connexion.id,});
-    return res.json(plaintesCon);
+  const inscrit = await inscrits.findOne({id: pId , mdp: pMdp});
+  if (inscrit){
+    const plaintesCon = await plaintes.find({sur: inscrit.id,});
+    return res.json({plaintesCon, inscrit});
   } else {
     return res.json(false);
   }
@@ -108,12 +108,25 @@ app.delete('/supcompte/:id', async (req, res) => {
   try {
     const id = decodeURIComponent(req.params.id);
     const compte = await inscrits.findOneAndDelete({id: id});
+    await plaintes.deleteMany({sur: id})
     res.json(compte);
   } catch (error){
     console.error(error);
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
+
+app.delete('/supmis/:id', async (req, res) => {
+  try {
+    const id = decodeURIComponent(req.params.id);
+    const plainte = await plaintes.findOneAndDelete({_id: id});
+    res.json(plainte);
+  } catch (error){
+    console.error(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 
 
 app.use(express.static("public"));

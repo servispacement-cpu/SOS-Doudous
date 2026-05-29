@@ -31,20 +31,38 @@ document.getElementById("con").addEventListener("submit", async function(event){
         if (dataCon){
             document.getElementById("divcon").style.display = "none" ;
             document.getElementById("ptpl").style.display = "block" ;
+            document.getElementById("ide").style.display = "block" ;
             document.getElementById("rej").style.display = "none" ;
-            for (let i = 0 ; i<dataCon.length ; i++){
+
+            const h1 = document.createElement("h1");
+            const id = document.createElement("h3");
+            const dip = document.createElement("h3");
+            h1.textContent = "Bonjour, " + dataCon.inscrit.id;
+            id.textContent = "Votre identifiant : " + dataCon.inscrit.id;
+            dip.textContent = "Votre numéro de diplôme: " + dataCon.inscrit.dip;
+            document.getElementById("ide").appendChild(h1);
+            document.getElementById("ide").appendChild(id);
+            document.getElementById("ide").appendChild(dip);
+            for (let i = 0 ; i<dataCon.plaintesCon.length ; i++){
                 const com = document.createElement("h3");
+                const bt = document.createElement("button");
                 const hr = document.createElement("hr");
-                com.textContent = "Commentaire de la plainte : " + dataCon[i].com;
+                com.textContent = "Commentaire de la plainte : " + dataCon.plaintesCon[i].com;
+                bt.textContent = "Mission accomplie !";
+                // Supprimer une mission
+                bt.addEventListener("click" , function() {
+                    sup(`https://sos-doudous.onrender.com/supmis/${encodeURIComponent(dataCon.plaintesCon[i]._id)}`);
+                });
                 document.getElementById("ptpl").appendChild(com);
+                document.getElementById("ptpl").appendChild(bt);
                 document.getElementById("ptpl").appendChild(hr);
             }
             ///Supprimer un compte
             const bts = document.createElement("button");
             bts.textContent = "Supprimer le compte";
             bts.addEventListener("click" , function(){
-                const verifsup = prompt("Ecrivez ' " + idCon + " ' pour valider la suppression.")
-                if(verifsup === idCon){
+                const verifsup = prompt("Ecrivez ' " + dataCon.inscrit.id + " ' pour valider la suppression.")
+                if(verifsup === dataCon.inscrit.id){
                     sup(`https://sos-doudous.onrender.com/supcompte/${encodeURIComponent(idCon)}`);
                 }
             })

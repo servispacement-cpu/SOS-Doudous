@@ -47,7 +47,7 @@ async function sup(url){
         if (!response.ok) throw new Error(`Erreur HTTP : ${response.status}`);
 
         const data = await response.json();
-        if(data){alert("Votre compte a bien été suprimmé")}
+        if(data){alert("Votre action a bien été réalisée")}
         console.log('Réponse du serveur :', data);
     } catch (error) {
         console.error('Erreur :', error);

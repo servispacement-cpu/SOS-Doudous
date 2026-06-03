@@ -116,10 +116,15 @@ app.delete('/supcompte/:id', async (req, res) => {
   }
 });
 
+//Suprimer une mission
 app.delete('/supmis/:id', async (req, res) => {
   try {
     const id = decodeURIComponent(req.params.id);
     const plainte = await plaintes.findOneAndDelete({_id: id});
+    await inscrits.updateOne(
+      {id: plainte.sur},
+      { $inc: { plaintes: -1 } }
+    )
     res.json(plainte);
   } catch (error){
     console.error(error);

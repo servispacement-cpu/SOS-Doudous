@@ -47,14 +47,41 @@ const plaintes= mongoose.model('Plaintes', SchemaP);
 // Define routes
 app.use(cors()); 
 
+// Iscription
+app.post('/inscription', async (req, res) => {
+  try {
+ const item = new inscrits(req.body);
+  await item.save();
+  
+  res.json(item);
+  } catch (error){
+    console.error(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
 
-//afficher inscrits pour plaintes
 app.get('/inscriptions', async (req, res) => {
   const items = await inscrits.find({plaintes: { $lte: 2 }} , {mdp: 0,});  
   res.json(items);
 });
 
-// Créer une plainte
+
+
+app.delete('/supcompte/:id', async (req, res) => {
+  try {
+    const id = decodeURIComponent(req.params.id);
+    const compte = await inscrits.findOneAndDelete({id: id});
+    await plaintes.deleteMany({sur: id})
+    res.json(compte);
+  } catch (error){
+    console.error(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+
+
+// Plaintes
 app.post('/plainte', async (req, res) => {
   try {
   const item = new plaintes(req.body);
@@ -74,7 +101,6 @@ app.post('/plainte', async (req, res) => {
 });
 
 
-//Se connecter + recup plaintes
 app.get('/connexion/:id/:mdp', async (req, res) => {
   const pId = decodeURIComponent(req.params.id);
   const pMdp = decodeURIComponent(req.params.mdp);
@@ -88,35 +114,6 @@ app.get('/connexion/:id/:mdp', async (req, res) => {
   }
 })
 
-
-// S'inscrire
-app.post('/inscription', async (req, res) => {
-  try {
- const item = new inscrits(req.body);
-  await item.save();
-  
-  res.json(item);
-  } catch (error){
-    console.error(error);
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-});
-
-///Supprimer le compte
-
-app.delete('/supcompte/:id', async (req, res) => {
-  try {
-    const id = decodeURIComponent(req.params.id);
-    const compte = await inscrits.findOneAndDelete({id: id});
-    await plaintes.deleteMany({sur: id})
-    res.json(compte);
-  } catch (error){
-    console.error(error);
-    res.status(500).json({ error: "Erreur serveur" });
-  }
-});
-
-//Suprimer une mission
 app.delete('/supmis/:id', async (req, res) => {
   try {
     const id = decodeURIComponent(req.params.id);
@@ -131,6 +128,10 @@ app.delete('/supmis/:id', async (req, res) => {
     res.status(500).json({ error: "Erreur serveur" });
   }
 });
+
+
+
+
 
 
 
